@@ -1,120 +1,124 @@
 
 import React, { useEffect, useRef } from 'react';
-import { ArrowDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-const phases = [
+const steps = [
   {
     id: "01",
-    label: "The Audit",
+    label: "Discovery",
     title: "Biological Mapping",
-    desc: "We begin by digitizing your internal landscape. Through advanced genomic sequencing and comprehensive blood panels, we create a high-fidelity twin of your biology.",
-    image: "https://images.unsplash.com/photo-1579165466741-7f35a4755657?q=80&w=2548&auto=format&fit=crop", // Abstract data/cells
-    tags: ["Genomics", "Blood Panel", "Microbiome"]
+    desc: "We digitize your internal landscape using clinical-grade genomics.",
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop", // Abstract Dark Liquid
+    color: "bg-[#1f2923]", // Very Dark Green
+    accent: "text-emerald-400"
   },
   {
     id: "02",
-    label: "The Strategy",
-    title: "Neural Synthesis",
-    desc: "Data without direction is noise. Our engine correlates 150+ biomarkers against longevity research to uncover your specific levers for performance and lifespan extension.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop", // Abstract tech/light
-    tags: ["Pattern Recognition", "AI Modeling", "Risk Analysis"]
+    label: "Synthesis",
+    title: "Neural Correlation",
+    desc: "AI correlates 150+ biomarkers to find your leverage points.",
+    image: "https://images.unsplash.com/photo-1620641788421-7f1c918e7799?q=80&w=2600&auto=format&fit=crop", // Abstract Orange/Clay Mesh
+    color: "bg-[#2a1b15]", // Very Dark Clay
+    accent: "text-nura-clay"
   },
   {
     id: "03",
-    label: "The Ritual",
+    label: "Action",
     title: "Daily Calibration",
-    desc: "The blueprint becomes behavior. Receive a dynamic daily protocol—nutrition, supplementation, and movement—that adapts in real-time to your body's feedback.",
-    image: "https://images.unsplash.com/photo-1606820854416-439b33051b46?q=80&w=2670&auto=format&fit=crop", // Nature/Water/Calm
-    tags: ["Smart Supplementation", "Nutrition Plan", "HRV Training"]
+    desc: "A dynamic protocol that adapts to your body's real-time needs.",
+    image: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?q=80&w=2400&auto=format&fit=crop", // Abstract Light/Fluid
+    color: "bg-[#252525]", // Dark Grey
+    accent: "text-white"
   }
 ];
 
 export const HowItWorks: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = window.gsap.context(() => {
-        // Simple fade ups for each row
-        const rows = document.querySelectorAll('.method-row');
-        rows.forEach((row) => {
-            window.gsap.from(row, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: row,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-        });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="py-32 px-6 bg-nura-cream overflow-hidden">
-      <div className="container mx-auto">
+    <section id="how-it-works" ref={containerRef} className="py-24 bg-nura-cream">
+      <div className="container mx-auto px-4 md:px-6">
         
-        {/* Section Header */}
-        <div className="text-center mb-32 max-w-3xl mx-auto">
-            <span className="font-sans text-xs font-bold tracking-[0.2em] text-nura-moss/40 uppercase block mb-4">
-                The Nura Protocol
-            </span>
-            <h2 className="font-display text-4xl md:text-6xl text-nura-moss mb-8">
-                From molecular data to <br/>
-                <span className="font-serif italic text-nura-clay">daily habits.</span>
-            </h2>
-            <div className="flex justify-center">
-                <div className="w-[1px] h-20 bg-nura-moss/10"></div>
-            </div>
+        <div className="mb-20 pl-4 md:pl-10 border-l-2 border-nura-moss/20">
+          <h2 className="font-display text-4xl md:text-5xl text-nura-moss mb-4">The Nura Protocol</h2>
+          <p className="text-nura-moss/60 max-w-md">A three-stage journey from data to dominance.</p>
         </div>
 
-        {/* Process Steps (Z-Pattern) */}
-        <div className="space-y-32">
-            {phases.map((phase, idx) => (
-                <div 
-                    key={idx} 
-                    className={`method-row flex flex-col ${idx % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-12 md:gap-24`}
-                >
-                    {/* Image Side */}
-                    <div className="w-full md:w-1/2">
-                        <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl group">
-                            <img 
-                                src={phase.image} 
-                                alt={phase.title} 
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                            />
-                            {/* Number Overlay */}
-                            <div className="absolute top-6 left-6 md:top-10 md:left-10 bg-white/10 backdrop-blur-md border border-white/20 text-white font-mono text-xl md:text-2xl w-16 h-16 rounded-full flex items-center justify-center">
-                                {phase.id}
+        <div className="relative">
+          {steps.map((step, i) => (
+            <div 
+              key={i} 
+              className="sticky top-32 mb-12 last:mb-0"
+              style={{ zIndex: i + 1 }}
+            >
+              <div 
+                className={`
+                  relative overflow-hidden rounded-[2.5rem] p-8 md:p-16 
+                  min-h-[500px] md:min-h-[600px] flex flex-col md:flex-row items-center gap-12
+                  ${step.color} text-white shadow-2xl border border-white/5
+                `}
+              >
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={step.image} 
+                        alt={step.title} 
+                        className="w-full h-full object-cover opacity-40 mix-blend-luminosity hover:scale-105 transition-transform duration-[2s]" 
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent`}></div>
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10 w-full md:w-1/2">
+                   <div className="flex items-center gap-4 mb-8">
+                        <span className="flex items-center justify-center w-12 h-12 rounded-full border border-white/20 font-mono text-lg">
+                            {step.id}
+                        </span>
+                        <span className={`uppercase tracking-widest text-sm font-bold ${step.accent}`}>
+                            {step.label}
+                        </span>
+                   </div>
+                   
+                   <h3 className="font-display text-5xl md:text-7xl mb-6 leading-tight">
+                       {step.title}
+                   </h3>
+                   
+                   <p className="text-white/70 text-xl leading-relaxed max-w-md mb-10">
+                       {step.desc}
+                   </p>
+
+                   <button className="group flex items-center gap-3 text-white/90 hover:text-white transition-colors">
+                       <span className="text-sm uppercase tracking-wider border-b border-white/30 pb-1 group-hover:border-white transition-colors">Learn more</span>
+                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                   </button>
+                </div>
+
+                {/* Visual Decoration Right Side */}
+                <div className="relative z-10 w-full md:w-1/2 flex justify-center md:justify-end">
+                     {/* Glassmorphism Card */}
+                     <div className="w-full max-w-sm aspect-square bg-white/5 backdrop-blur-2xl rounded-3xl border border-white/10 p-8 flex flex-col justify-between">
+                        <div className="flex justify-between items-start">
+                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                            <div className="font-mono text-xs text-white/40">LIVE DATA</div>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                <div className="h-full bg-current w-3/4 opacity-50"></div>
+                            </div>
+                             <div className="h-1 w-2/3 bg-white/10 rounded-full overflow-hidden">
+                                <div className="h-full bg-current w-1/2 opacity-30"></div>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Content Side */}
-                    <div className="w-full md:w-1/2">
-                        <span className="text-nura-clay font-medium uppercase tracking-widest text-sm mb-4 block">
-                            {phase.label}
-                        </span>
-                        <h3 className="font-display text-4xl md:text-5xl text-nura-moss mb-6 leading-tight">
-                            {phase.title}
-                        </h3>
-                        <p className="text-nura-moss/60 text-lg leading-relaxed mb-10 max-w-md">
-                            {phase.desc}
-                        </p>
-                        
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-3">
-                            {phase.tags.map((tag, tIdx) => (
-                                <span key={tIdx} className="px-4 py-2 rounded-full border border-nura-moss/10 text-nura-moss/60 text-sm font-medium hover:border-nura-moss/30 transition-colors cursor-default">
-                                    {tag}
-                                </span>
-                            ))}
+                        <div>
+                            <div className="text-4xl font-display font-light">98<span className="text-sm">%</span></div>
+                            <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Optimization Score</div>
                         </div>
-                    </div>
+                     </div>
                 </div>
-            ))}
+
+              </div>
+            </div>
+          ))}
         </div>
 
       </div>

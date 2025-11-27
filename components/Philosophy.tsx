@@ -3,65 +3,97 @@ import React, { useRef, useEffect } from 'react';
 
 export const Philosophy: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const textRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const ctx = window.gsap.context(() => {
-            const tl = window.gsap.timeline({
+            // Parallax the background image subtly
+            window.gsap.to(".phil-bg", {
+                yPercent: 20,
+                ease: "none",
                 scrollTrigger: {
                     trigger: containerRef.current,
-                    start: "top 70%",
-                    end: "bottom bottom",
-                    toggleActions: "play none none reverse"
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
                 }
             });
 
-            tl.from(".phil-img", { scale: 1.1, opacity: 0, duration: 1.5, ease: "power2.out" })
-              .from(".phil-text", { y: 50, opacity: 0, duration: 1, stagger: 0.2 }, "-=1.0");
+            // Reveal text lines
+            const lines = window.gsap.utils.toArray('.phil-line');
+            lines.forEach((line: any) => {
+                window.gsap.from(line, {
+                    y: 100,
+                    opacity: 0,
+                    rotationX: -45,
+                    transformOrigin: "0% 50% -50",
+                    duration: 1.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: line,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
 
         }, containerRef);
         return () => ctx.revert();
     }, []);
 
     return (
-        <section id="philosophy" ref={containerRef} className="bg-nura-charcoal text-white py-0 md:py-0 overflow-hidden">
-            <div className="flex flex-col md:flex-row h-full">
-                
-                {/* Left: Image / Visual */}
-                <div className="w-full md:w-1/2 h-[60vh] md:h-auto relative overflow-hidden group">
-                    <img 
-                        src="https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2670&auto=format&fit=crop" 
-                        alt="Human potential" 
-                        className="phil-img w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" 
-                    />
-                    <div className="absolute inset-0 bg-black/20 mix-blend-overlay"></div>
+        <section id="philosophy" ref={containerRef} className="relative py-40 px-6 bg-nura-charcoal overflow-hidden text-nura-cream min-h-screen flex items-center justify-center">
+            
+            {/* Ambient Background Image */}
+            <div className="absolute inset-0 z-0 opacity-20">
+                <img 
+                    src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop" 
+                    alt="Organic Texture" 
+                    className="phil-bg w-full h-[120%] object-cover grayscale brightness-50 contrast-125" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-nura-charcoal via-transparent to-nura-charcoal"></div>
+            </div>
+
+            {/* Central Manifesto */}
+            <div className="relative z-10 max-w-5xl mx-auto text-center">
+                <div className="mb-12">
+                    <span className="inline-block py-1 px-3 border border-white/20 rounded-full text-xs font-mono uppercase tracking-widest mb-6 backdrop-blur-sm">
+                        The Philosophy
+                    </span>
                 </div>
 
-                {/* Right: Content */}
-                <div className="w-full md:w-1/2 flex items-center justify-center p-12 md:p-24 bg-nura-charcoal relative">
-                     {/* Decorative Elements */}
-                     <div className="absolute top-12 left-12 w-20 h-[1px] bg-nura-clay/50"></div>
-
-                    <div className="max-w-xl">
-                        <span className="phil-text block font-sans text-xs font-bold tracking-[0.3em] text-nura-clay uppercase mb-8">
-                            Our Philosophy
-                        </span>
-                        
-                        <h2 className="phil-text font-display font-medium text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-8 text-nura-cream">
-                            The Architecture <br/>
-                            <span className="font-serif italic text-white/50">of Vitality.</span>
+                <div ref={textRef} className="space-y-4 md:space-y-8 perspective-1000">
+                    <div className="overflow-hidden">
+                        <h2 className="phil-line font-display text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tighter text-white/90">
+                            Modern medicine asks,
                         </h2>
-
-                        <p className="phil-text text-lg md:text-xl text-white/60 leading-relaxed mb-10 font-light">
-                            For decades, the standard has been "sick care"—fixing what breaks. 
-                            We believe health is not the absence of pathology, but the presence of boundless capacity.
-                        </p>
-
-                        <div className="phil-text pl-6 border-l border-white/20">
-                            <p className="text-white/80 italic font-serif text-2xl">
-                                "We don't repair. We optimize."
-                            </p>
-                        </div>
                     </div>
+                    <div className="overflow-hidden">
+                        <h2 className="phil-line font-serif italic text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/50">
+                            "What is wrong?"
+                        </h2>
+                    </div>
+                    
+                    <div className="py-12 flex justify-center">
+                        <div className="w-[1px] h-32 bg-gradient-to-b from-transparent via-nura-clay to-transparent opacity-50"></div>
+                    </div>
+
+                    <div className="overflow-hidden">
+                        <h2 className="phil-line font-display text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tighter text-white/90">
+                            We ask,
+                        </h2>
+                    </div>
+                    <div className="overflow-hidden">
+                        <h2 className="phil-line font-serif italic text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-nura-clay">
+                            "What is optimal?"
+                        </h2>
+                    </div>
+                </div>
+
+                <div className="mt-24 max-w-2xl mx-auto">
+                    <p className="text-lg md:text-2xl text-white/60 font-light leading-relaxed">
+                        Health is not merely the absence of disease. It is the <span className="text-white font-normal">infinite capability</span> of your biology to adapt, recover, and thrive in an entropic world.
+                    </p>
                 </div>
             </div>
         </section>
